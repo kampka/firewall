@@ -1,0 +1,8 @@
+# default configuration file for firewall
+
+# Change to "yes" to autostart the firewall on init,
+# "no" otherwise. Default is "no".
+ENABLE_FIREWALL="no"
+
+# If the iptables executable can not be found, specify it here.
+#IPTABLES=/sbin/iptables

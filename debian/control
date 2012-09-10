@@ -1,0 +1,16 @@
+Source: firewall
+Section: admin
+Priority: extra
+Maintainer: Christian Kampka <chris@emerge-life.de>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.2
+Homepage: https://github.com/kampka/firewall
+Vcs-Git: git://github.com/kampka/firewall
+
+Package: firewall
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, debianutils, iptables
+Description: A simple firewall management tool based on iptables.
+ The scope of this tool is to provide a simple iptables management solution
+ intended to be used by a user as well as part of system init while providing
+ an easy way to set up and manage sets of firewall rules.

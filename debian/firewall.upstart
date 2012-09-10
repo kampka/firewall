@@ -1,0 +1,47 @@
+# upstart script for firewall
+
+author "Christian Kampka <chris@emerge-life.de>"
+description "Autostart the firewall"
+
+# Make sure we start before an interface receives traffic
+start on (starting network-interface
+          or starting network-manager
+          or starting networking)
+
+stop on runlevel [!023456]
+
+emits firewall-up
+emits firewall-down
+
+console output
+
+task
+
+env IPTABLES="/sbin/iptables"
+
+pre-start script
+
+	  # stop job from continuing if no config file found for daemon
+  [ ! -f /etc/default/firewall ] && { stop; exit 0; }
+
+  # source the config file
+  . /etc/default/firewall
+
+  # stop job from continuing if admin has not enabled service in
+  # config file.
+  [ "x$ENABLE_FIREWALL" = "xyes" ] || { stop; exit 0; }
+
+end script
+
+script
+	. /etc/default/firewall
+	
+	/usr/sbin/firewall start
+	/sbin/initctl emit --no-wait firewall-up
+end script
+
+post-stop script
+	/usr/sbin/firewall stop
+	/sbin/initctl emit --no-wait firewall-down
+end script
+
