@@ -8,20 +8,18 @@ start on (starting network-interface
           or starting network-manager
           or starting networking)
 
-stop on runlevel [!023456]
+stop on runlevel [!2345]
 
 emits firewall-up
 emits firewall-down
 
-console output
-
-task
+console log
 
 env IPTABLES="/sbin/iptables"
 
 pre-start script
 
-	  # stop job from continuing if no config file found for daemon
+  # stop job from continuing if no config file found for daemon
   [ ! -f /etc/default/firewall ] && { stop; exit 0; }
 
   # source the config file
@@ -31,17 +29,12 @@ pre-start script
   # config file.
   [ "x$ENABLE_FIREWALL" = "xyes" ] || { stop; exit 0; }
 
-end script
-
-script
-	. /etc/default/firewall
-	
-	/usr/sbin/firewall start
-	/sbin/initctl emit --no-wait firewall-up
+  /usr/sbin/firewall start
+  /sbin/initctl emit --no-wait firewall-up
 end script
 
 post-stop script
-	/usr/sbin/firewall stop
-	/sbin/initctl emit --no-wait firewall-down
+  /usr/sbin/firewall stop
+  /sbin/initctl emit --no-wait firewall-down
 end script
 

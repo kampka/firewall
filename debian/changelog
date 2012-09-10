@@ -1,3 +1,11 @@
+firewall (0.2) unstable; urgency=low
+
+  * [Upstart]
+    - Log to upstart log instead of console
+    - Move upstart script stanza to pre-start to avoid early stops
+
+ -- Christian Kampka <chris@emerge-life.de>  Mon, 10 Sep 2012 19:34:43 +0200
+
 firewall (0.1) unstable; urgency=low
 
   * Initial Release.
